@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+.msg:hover .dots{
+    display: block;
+}
+
+.dots{
+    display: none;
+    transition: display 0.2s ease-in;
+}
