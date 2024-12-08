@@ -143,7 +143,7 @@ export default function ChatContainer() {
                     messages.map((message) => (
                         <div
                             key={message._id}
-                            className={`chat relative ${message.senderId === authUser._id ? 'chat-end pl-20' : 'chat-start pr-20'}`}
+                            className={`chat relative ${message.senderId === authUser._id ? 'chat-end pl-10' : 'chat-start pr-10'}`}
                         >
                             <div className="chat-image avatar">
                                 <div className="size-10 rounded-full border">
