@@ -26,15 +26,15 @@ export default function Sidebar() {
 
             <div className="border-r border-base-300 px-3 gap-2 py-2 w-[15%] md:w-[20%] flex flex-col items-center justify-between">
 
-                <div className='flex flex-col gap-2 relative'>
+                <div className='flex flex-col gap-2 '>
 
-                    <div className={`rounded hover:bg-base-300 p-3 cursor-pointer ${showTab.contacts ? 'bg-base-300' : ''}`}
+                    <div className={`relative group rounded hover:bg-base-300 p-3 cursor-pointer ${showTab.contacts ? 'bg-base-300' : ''}`}
                         onClick={() => setShowTab({ contacts: true, newContacts: false })}>
                         <Users className="size-6" />
-                        <Tooltip text='New Contact' />
+                        <Tooltip text='Contacts' />
                     </div>
 
-                    <div className={` rounded hover:bg-base-300 p-3 cursor-pointer ${showTab.newContacts ? 'bg-base-300' : ''}`}
+                    <div className={`relative group rounded hover:bg-base-300 p-3 cursor-pointer ${showTab.newContacts ? 'bg-base-300' : ''}`}
                         onClick={() => setShowTab({ contacts: false, newContacts: true })}>
                         <UserPlus className="size-6" />
                         <Tooltip text='New Contact' />
@@ -42,7 +42,7 @@ export default function Sidebar() {
 
                 </div>
 
-                <div className='mb-0 rounded p-3 cursor-pointer hover:bg-base-300 group relative'>
+                <div className='rounded p-3 cursor-pointer hover:bg-base-300 group relative'>
                     <Link to='/profile'>
                         <CircleUserRound />
                         <Tooltip text='Profile' />

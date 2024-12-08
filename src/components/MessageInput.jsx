@@ -64,6 +64,7 @@ export default function MessageInput() {
             }
 
             <form onSubmit={handleSendMessage} className='flex items-center gap-1'>
+
                 <div className='flex-1 flex items-center gap-2'>
 
                     <input
@@ -73,8 +74,8 @@ export default function MessageInput() {
                         onChange={handleImageChange}
                         className='hidden'
                     />
-                    
-                    <button type='button' className={`bg-base-200 md:p-3 p-1 rounded-lg hover:bg-base-300 transition ${imagePreview ? 'text-emerald-500' : 'text-slate-400'}`} onClick={() => fileInputRef.current?.click()}>
+
+                    <button type='button' className={`bg-base-200 p-3 rounded-lg hover:bg-base-300 transition ${imagePreview ? 'text-emerald-500' : 'text-slate-400'}`} onClick={() => fileInputRef.current?.click()}>
                         <Image size={22} />
                     </button>
 
@@ -83,12 +84,12 @@ export default function MessageInput() {
                         placeholder='Type message..'
                         value={text}
                         onChange={e => setText(e.target.value)}
-                        className='w-full input input-bordered rounded-lg input-sm sm:input-md'
+                        className='w-full input input-bordered rounded-lg input-md'
                     />
 
                 </div>
 
-                <button type='submit' className='bg-base-200 py-1 px-3 md:py-3 md:px-5 rounded-lg hover:bg-base-300 transition disabled:pointer-events-none' disabled={!text.trim() && !imagePreview}>
+                <button type='submit' className='bg-base-200 py-3 px-5 rounded-lg hover:bg-base-300 transition disabled:pointer-events-none' disabled={!text.trim() && !imagePreview}>
                     {!isSendingMessage ? <SendHorizontal size={22} /> : <Loader2 size={22} className='animate-spin' />}
                 </button>
             </form>

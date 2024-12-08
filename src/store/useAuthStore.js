@@ -126,7 +126,7 @@ const useAuth = create((set, get) => ({
 
     searchUser: debounce(async (value) => {
         try {
-            if (!value) return
+            if (!value.trim()) return
             set({ isSearchingUser: true })
             const res = await axiosInstance.get(`/contact/search/${value}`)
             set({ searchResult: res.data.users })

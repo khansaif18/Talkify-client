@@ -20,10 +20,12 @@ export default function NetworkStatus() {
 
 
     if (!isOnline) return (
-        <div className='absolute top-[25%] py-3 px-10 left-[50%] -translate-x-[50%] z-50 flex flex-col items-center bg-primary rounded'>
-            <span className='animate-ping'> <WifiOff size={30} /></span>
-            <h1 className='text-3xl tracking font-bold'>You Are Offline</h1>
-            <p className='text-md'>Please Connect to the Internet</p>
+        <div className='h-screen w-full flex items-center justify-center fixed top-0 z-50 backdrop-blur-sm pointer-events-none'>
+            <div className=' py-5 px-20 shadow-lg flex flex-col items-center bg-white/90 rounded mt-[-5rem]'>
+                <span className='animate-pulse text-black'> <WifiOff size={30} /></span>
+                <h1 className='text-3xl tracking font-bold text-black'>You Are Offline</h1>
+                <p className='text-md text-black'>Please Connect to the Internet</p>
+            </div>
         </div>
     )
 }
