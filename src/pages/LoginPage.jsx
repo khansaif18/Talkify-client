@@ -12,7 +12,7 @@ export default function LoginPage() {
 
     const validateForm = () => {
         if (!formData.email.trim()) return toast.error("Email is required");
-        // if (!/\S+@\S+\.\S+/.test(formData.email)) return toast.error("Invalid email format");
+        if (!formData.password.length < 6) return toast.error('Password must be atleast 6 digits')
         if (!formData.password) return toast.error("Password is required");
         return true
     }
