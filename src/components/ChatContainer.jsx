@@ -175,8 +175,8 @@ export default function ChatContainer() {
 
 
                                 {
-                                    authUser._id == message.senderId  ?
-                                        <span className={`dots absolute p-2 -left-8 py-1 cursor-pointer `}
+                                    authUser._id == message.senderId ?
+                                        <span className={`dots text-primary absolute p-2 -left-8 py-1 cursor-pointer `}
                                             onClick={() => deleteMessage(message._id)}>
                                             <Trash size={16} />
                                         </span> : ''
