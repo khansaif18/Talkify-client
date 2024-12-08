@@ -10,6 +10,7 @@ import useAuth from './store/useAuthStore'
 import useTheme from './store/useThemeStore'
 import { Loader2 } from 'lucide-react'
 import { Toaster } from 'react-hot-toast'
+import NetworkStatus from './components/NetworkStatus '
 
 const App = () => {
 
@@ -30,7 +31,8 @@ const App = () => {
   return (
     <div className='w-full' data-theme={theme}>
       <Navbar />
-
+      <NetworkStatus/>
+      
       <Routes>
         <Route path='/' element={authUser ? <HomePage /> : <Navigate to='/login' />} />
         <Route path='/signup' element={!authUser ? <SignupPage /> : <Navigate to='/' />} />
