@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import useChat from '../store/useChatStore'
 import useAuth from '../store/useAuthStore'
-import { CircleUserRound, User2, UserPlus, Users } from 'lucide-react'
+import { CircleUserRound, Info, User2, UserPlus, Users } from 'lucide-react'
 import SidebarSkeleton from './skeletons/SidebarSkeleton'
 import Contacts from './Contacts'
 import NewContact from './NewContact'
-import Tooltip from './Tooltip'
+import Tooltip, { AnotherTooltip } from './Tooltip'
 
 export default function Sidebar() {
 
@@ -42,11 +42,18 @@ export default function Sidebar() {
 
                 </div>
 
-                <div className='rounded p-3 cursor-pointer hover:bg-base-300 group relative'>
-                    <Link to='/profile'>
+                <div className='flex flex-col gap-1'>
+
+                    <div className='rounded p-3 cursor-pointer hover:bg-base-300 group relative'>
+                        <Info />
+                        <AnotherTooltip text='Please note: Messages will automatically and permanently disappear 48 hours after being sent.' />
+                    </div>
+
+                    <Link to='/profile' className='rounded p-3 cursor-pointer hover:bg-base-300 group relative'>
                         <CircleUserRound />
                         <Tooltip text='Profile' />
                     </Link>
+
                 </div>
 
             </div>

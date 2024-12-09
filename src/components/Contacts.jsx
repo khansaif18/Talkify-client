@@ -16,8 +16,8 @@ export default function Contacts() {
     useEffect(() => {
         if (users) {
             const filteredUsers = users.filter(user =>
-                user.fullName.toLowerCase().trim().includes(searchValue.toLowerCase().trim()) ||
-                user.username.toLowerCase().trim().includes(searchValue.toLowerCase().trim())
+                user.fullName.toLowerCase().includes(searchValue.toLowerCase().trim()) ||
+                user.username.toLowerCase().includes(searchValue.toLowerCase().trim())
             )
             setSearchedUsers(filteredUsers)
         } else {
@@ -76,7 +76,8 @@ export default function Contacts() {
                                     </div>
                                 </div>
                             </button>
-                        )) :
+                        )) 
+                        :
                         <div className='text-center mt-10'>
                             <h2 className='text-lg'>No Contacts</h2>
                         </div>

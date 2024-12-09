@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import useAuth from '../store/useAuthStore'
 import { Check, ChevronDown, Loader2, UserPlus, X } from 'lucide-react'
+import useChat from '../store/useChatStore'
 
 export default function NewContact() {
 
@@ -13,6 +14,10 @@ export default function NewContact() {
     const defaultProfileImageUrl = 'https://img.freepik.com/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3383.jpg?w=740'
 
     const { searchUser, isSearchingUser, searchResult, getPendingUsers, isSendingRequest, sendRequest, pendingContact, isAcceptingRequest, acceptRequest, isRejectingRequest, rejectRequest } = useAuth()
+    const { users } = useChat()
+
+    console.log(users.includes('email'));
+
 
     return (
         <div className='w-full overflow-y-auto '>
@@ -41,7 +46,7 @@ export default function NewContact() {
                                     <div className='w-full text-center mt-3 bg-base-200 py-5 rounded'>
                                         <h2 className=''>No Requests</h2>
                                     </div> :
-                                    <div className='mt-3'>
+                                    <div className='mt-3 flex flex-col gap-1'>
                                         {
                                             pendingContact.map(contact => (
                                                 <div key={contact._id} className={`w-full px-3 py-2 bg-neutral rounded flex flex-col items-center justify-between gap-2 transition-colors`}>
@@ -65,19 +70,23 @@ export default function NewContact() {
                                                         <button className='bg-red-600 text-white p-1 rounded-md hover:bg-red-800 w-[50%] flex justify-center disabled:opacity-30'
                                                             disabled={isRejectingRequest}
                                                             onClick={async () => {
+                                                                setSelectedContactId(contact._id)
                                                                 await rejectRequest(contact._id)
                                                                 await getPendingUsers()
+                                                                setSelectedContactId('')
                                                             }}>
-                                                            {isRejectingRequest ? < Loader2 size={20} className='animate-spin' /> : <X size={20} />}
+                                                            {isRejectingRequest && selectedContactId === contact._id ? < Loader2 size={20} className='animate-spin' /> : <X size={20} />}
                                                         </button>
 
                                                         <button className='bg-green-600 text-white p-1 rounded-md hover:bg-green-800 w-[50%] flex justify-center disabled:opacity-30'
                                                             disabled={isAcceptingRequest}
                                                             onClick={async () => {
+                                                                setSelectedContactId(contact._id)
                                                                 await acceptRequest(contact._id)
                                                                 await getPendingUsers()
+                                                                setSelectedContactId('')
                                                             }} >
-                                                            {isAcceptingRequest ? < Loader2 size={20} className='animate-spin ' /> : <Check size={20} />}
+                                                            {isAcceptingRequest && selectedContactId === contact._id ? < Loader2 size={20} className='animate-spin ' /> : <Check size={20} />}
                                                         </button>
 
                                                     </div>
@@ -130,34 +139,49 @@ export default function NewContact() {
                                     :
                                     <div className="w-full py-1 flex flex-col mt-3">
                                         {
-                                            searchResult && searchResult.map(user => (
-                                                <div key={user._id} className={`w-full px-3 py-2 mb-2 bg-neutral rounded flex items-center justify-between gap-2 transition-colors`}>
+                                            searchResult
+                                                .filter(user => !users.some(currUser => currUser._id === user._id))
+                                                .map(user => (
+                                                    <div
+                                                        key={user._id}
+                                                        className={`w-full px-3 py-2 mb-2 bg-neutral rounded flex items-center justify-between gap-2 transition-colors`}
+                                                    >
+                                                        <div className='flex items-center gap-2'>
+                                                            <div className="relative">
+                                                                <img
+                                                                    src={user.profilePic || defaultProfileImageUrl}
+                                                                    className="size-10 object-cover rounded-full"
+                                                                    alt={`${user.fullName}'s profile`}
+                                                                />
+                                                            </div>
 
-                                                    <div className='flex items-center gap-2'>
-                                                        <div className="relative">
-                                                            <img
-                                                                src={user.profilePic || defaultProfileImageUrl}
-                                                                className="size-10 object-cover rounded-full"
-                                                            />
+                                                            <div>
+                                                                <p className="font-medium text-left text-md truncate capitalize">
+                                                                    {user.fullName.length < 12 ? user.fullName : user.fullName.slice(0, 10) + '..'}
+                                                                </p>
+                                                                <p className="font-medium text-left text-sm truncate">
+                                                                    {user.username.length < 12 ? user.username : user.username.slice(0, 12) + '..'}
+                                                                </p>
+                                                            </div>
                                                         </div>
 
-                                                        <div>
-                                                            <p className="font-medium text-left text-md truncate capitalize">{user.fullName.length < 12 ? user.fullName : user.fullName.slice(0, 10) + '..'}</p>
-                                                            <p className="font-medium text-left text-sm truncate">{user.username.length < 12 ? user.username : user.username.slice(0, 12) + '..'}</p>
-                                                        </div>
+                                                        <button
+                                                            className='bg-green-600 text-white p-2 rounded-md hover:bg-green-800 disabled:opacity-30'
+                                                            disabled={isSendingRequest}
+                                                            onClick={async () => {
+                                                                setSelectedContactId(user._id);
+                                                                await sendRequest(user._id);
+                                                                setSelectedContactId('');
+                                                            }}
+                                                        >
+                                                            {isSendingRequest && selectedContactId === user._id ? (
+                                                                <Loader2 size={20} className='animate-spin' />
+                                                            ) : (
+                                                                <UserPlus size={20} />
+                                                            )}
+                                                        </button>
                                                     </div>
-
-                                                    <button className='bg-green-600 text-white p-2 rounded-md hover:bg-green-800 disabled:opacity-30' disabled={isSendingRequest}
-                                                        onClick={async () => {
-                                                            setSelectedContactId(user._id)
-                                                            await sendRequest(user._id)
-                                                            setSelectedContactId('')
-                                                        }}>
-                                                        {isSendingRequest && selectedContactId === user._id ? <Loader2 size={20} className='animate-spin' /> : <UserPlus size={20} />}
-                                                    </button>
-
-                                                </div>
-                                            ))
+                                                ))
                                         }
                                     </div>
                             }
