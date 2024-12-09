@@ -16,8 +16,6 @@ export default function NewContact() {
     const { searchUser, isSearchingUser, searchResult, getPendingUsers, isSendingRequest, sendRequest, pendingContact, isAcceptingRequest, acceptRequest, isRejectingRequest, rejectRequest } = useAuth()
     const { users } = useChat()
 
-    console.log(users.includes('email'));
-
 
     return (
         <div className='w-full overflow-y-auto '>
@@ -139,7 +137,7 @@ export default function NewContact() {
                                     :
                                     <div className="w-full py-1 flex flex-col mt-3">
                                         {
-                                            searchResult
+                                            searchResult.length > 0 ? searchResult
                                                 .filter(user => !users.some(currUser => currUser._id === user._id))
                                                 .map(user => (
                                                     <div
@@ -181,7 +179,10 @@ export default function NewContact() {
                                                             )}
                                                         </button>
                                                     </div>
-                                                ))
+                                                )) :
+                                                <div className='w-full text-center mt-3 bg-base-200 py-5 rounded'>
+                                                    <h2 className=''>No Result</h2>
+                                                </div>
                                         }
                                     </div>
                             }
