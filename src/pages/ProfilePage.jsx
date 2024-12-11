@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import useAuth from '../store/useAuthStore'
-import { Camera, Check, Copy, Loader2, Mail, SaveAll, SquarePen, User, UserRoundCog } from 'lucide-react'
+import { BadgeInfoIcon, Camera, Check, Copy, Loader2, Mail, User, UserRoundCog } from 'lucide-react'
 import { formatJoiningDate } from '../lib/utils'
 import toast from 'react-hot-toast'
 import { Link } from 'react-router-dom'
 
 export default function ProfilePage() {
 
-    const { authUser, updateProfile, isUpdatingProfile, isCheckingUsername, isUsernameAvailable, usernameRes, validateUsername } = useAuth()
+    const { authUser, updateProfile, isDeletingProfile, deleteProfile, isUpdatingProfile, isCheckingUsername, isUsernameAvailable, usernameRes, validateUsername } = useAuth()
 
     const [isEditingProfile, setIsEditingProfile] = useState(false)
     const [showCopied, setShowCopied] = useState({ username: false, email: false })
@@ -15,6 +15,7 @@ export default function ProfilePage() {
     const [selectedImage, setSelectedImage] = useState(null)
     const [username, setUsername] = useState('')
     const [fullName, setFullName] = useState('')
+
 
     useEffect(() => {
         setFullName(authUser.fullName)
@@ -67,174 +68,194 @@ export default function ProfilePage() {
 
                                     <button className='bg-base-100 hover:bg-green-800 px-5 py-2 rounded-md text-sm flex items-center justify-center w-[90px] disabled:opacity-60 disabled:pointer-events-none' disabled={isUpdatingProfile}>
                                         {
-                                            isUpdatingProfile?
+                                            isUpdatingProfile ?
                                                 <>
-                                                Saving<Loader2 size = { 16 } className = 'animate-spin ml-1' />
-                                            </> : 'Save'
+                                                    Saving<Loader2 size={16} className='animate-spin ml-1' />
+                                                </> : 'Save'
                                         }
-                    </button>
+                                    </button>
 
-                </div>
+                                </div>
                         }
 
-                <Link to='/' className='bg-base-100 px-5 py-2 rounded-md text-sm hover:bg-base-200'>
-                    Home
-                </Link>
+                        <Link to='/' className='bg-base-100 px-5 py-2 rounded-md text-sm hover:bg-base-200'>
+                            Home
+                        </Link>
 
-            </div>
+                    </div>
 
 
-            <div className='text-center'>
-                <h1 className='text-2xl font-semibold'>Profile</h1>
-                <p className='mt-2'>Your Profile Information</p>
-            </div>
+                    <div className='text-center'>
+                        <h1 className='text-2xl font-semibold'>Profile</h1>
+                        <p className='mt-2'>Your Profile Information</p>
+                    </div>
 
-            <div className="flex flex-col items-center gap-4">
-                <div className="relative">
-                    <img
-                        src={selectedImage || authUser?.profilePic || defaultProfileImageUrl}
-                        alt="Profile"
-                        className='size-32 rounded-full object-cover border-3'
-                    />
-                    {
-                        isEditingProfile &&
-                        <label htmlFor="avatar-upload" className={`absolute bottom-0 right-0 bg-base-content hover:scale-105 p-2 rounded-full cursor-pointer transition-all duration-200 ${isUpdatingProfile ? " animate-pulse pointer-events-none " : ""}`}>
-                            <Camera className='w-5 h-5 text-base-200' />
-                            <input
-                                type="file"
-                                id="avatar-upload"
-                                className="hidden"
-                                accept="image/*"
-                                onChange={handleImageChange}
-                                disabled={isUpdatingProfile}
+                    <div className="flex flex-col items-center gap-4">
+                        <div className="relative">
+                            <img
+                                src={selectedImage || authUser?.profilePic || defaultProfileImageUrl}
+                                alt="Profile"
+                                className='size-32 rounded-full object-cover border-3'
                             />
-                        </label>
-                    }
-                </div>
-            </div>
+                            {
+                                isEditingProfile &&
+                                <label htmlFor="avatar-upload" className={`absolute bottom-0 right-0 bg-base-content hover:scale-105 p-2 rounded-full cursor-pointer transition-all duration-200 ${isUpdatingProfile ? " animate-pulse pointer-events-none " : ""}`}>
+                                    <Camera className='w-5 h-5 text-base-200' />
+                                    <input
+                                        type="file"
+                                        id="avatar-upload"
+                                        className="hidden"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                        disabled={isUpdatingProfile}
+                                    />
+                                </label>
+                            }
+                        </div>
+                    </div>
 
-            <div className='space-y-6'>
+                    <div className='space-y-6'>
 
-                <div className="space-y-1.5">
-                    {
-                        !isEditingProfile ?
-                            <>
-                                <div className="text-sm text-zinc-400 flex items-center gap-2">
-                                    <User className="w-4 h-4" />
-                                    Full Name
-                                </div>
-                                <p className="px-4 py-2.5 bg-base-200 rounded-lg border">{authUser?.fullName}</p>
-                            </> :
-                            <>
-                                <div className="text-sm text-zinc-400 flex items-center gap-2">
-                                    <User className="w-4 h-4" />
-                                    Full Name
-                                </div>
-                                <input
-                                    type="text"
-                                    value={fullName}
-                                    onChange={e => setFullName(e.target.value)}
-                                    className='px-4 py-2.5 bg-base-200 rounded-lg border outline-none w-full'
-                                />
-                            </>
-                    }
-                </div>
+                        <div className="space-y-1.5">
+                            {
+                                !isEditingProfile ?
+                                    <>
+                                        <div className="text-sm text-zinc-400 flex items-center gap-2">
+                                            <User className="w-4 h-4" />
+                                            Full Name
+                                        </div>
+                                        <p className="px-4 py-2.5 bg-base-200 rounded-lg border">{authUser?.fullName}</p>
+                                    </> :
+                                    <>
+                                        <div className="text-sm text-zinc-400 flex items-center gap-2">
+                                            <User className="w-4 h-4" />
+                                            Full Name
+                                        </div>
+                                        <input
+                                            type="text"
+                                            value={fullName}
+                                            onChange={e => setFullName(e.target.value)}
+                                            className='px-4 py-2.5 bg-base-200 rounded-lg border outline-none w-full'
+                                        />
+                                    </>
+                            }
+                        </div>
 
-                <div className="space-y-1.5">
-                    {
-                        !isEditingProfile ?
-                            <>
-                                <div className="text-sm text-zinc-400 flex items-center gap-2">
-                                    <UserRoundCog className="w-4 h-4" />
-                                    Username
-                                </div>
+                        <div className="space-y-1.5">
+                            {
+                                !isEditingProfile ?
+                                    <>
+                                        <div className="text-sm text-zinc-400 flex items-center gap-2">
+                                            <UserRoundCog className="w-4 h-4" />
+                                            Username
+                                        </div>
 
 
-                                <p className="relative px-4 py-2.5 bg-base-200 rounded-lg border  flex items-center justify-between">
-                                    {authUser?.username}
+                                        <p className="relative px-4 py-2.5 bg-base-200 rounded-lg border  flex items-center justify-between">
+                                            {authUser?.username}
 
-                                    {showCopied.username && <p className='absolute text-sm rounded-md -top-8 right-0 bg-base-100 px-3 py-[2px]'>Copied</p>}
+                                            {showCopied.username && <p className='absolute text-sm rounded-md -top-8 right-0 bg-base-100 px-3 py-[2px]'>Copied</p>}
+
+                                            <span onClick={() => {
+                                                navigator.clipboard.writeText(authUser.username)
+                                                setShowCopied({ ...showCopied, username: true })
+                                                setTimeout(() => { setShowCopied({ ...showCopied, username: false }) }, 1000)
+                                            }}>
+                                                <Copy size={16} className='opacity-40 cursor-pointer hover:opacity-80 transition-opacity' />
+                                            </span>
+                                        </p>
+                                    </> :
+                                    <>
+                                        <div className="text-sm text-zinc-400 flex items-center gap-2">
+                                            <UserRoundCog className="w-4 h-4" />
+                                            Username
+                                        </div>
+                                        <div className='relative'>
+                                            <input
+                                                type="text"
+                                                value={username}
+                                                className='px-4 py-2.5 bg-base-200 rounded-lg border outline-none w-full'
+                                                onChange={e => {
+                                                    setUsername(e.target.value)
+                                                    validateUsername(e.target.value)
+                                                }}
+                                            />
+                                            {isCheckingUsername && <span className='absolute right-2 top-[50%] -translate-y-[50%]'><Loader2 size={16} className='animate-spin' /></span>}
+                                        </div>
+                                        {
+                                            usernameRes ?
+                                                <p className={`text-sm ml-1 ${usernameRes === 'username is available' ? 'text-green-600' : 'text-red-600'}`}>
+                                                    {usernameRes}
+                                                </p> : ''
+                                        }
+                                    </>
+                            }
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <div className="text-sm text-zinc-400 flex items-center gap-2 ">
+                                <Mail className="w-4 h-4" />
+                                Email Address
+                            </div>
+                            <p className="relative px-4 py-2.5 bg-base-200 rounded-lg border flex items-center justify-between">
+                                {authUser?.email}
+                                <div className='flex items-center justify-center gap-3'>
+
+                                    <span><Check size={16} className='bg-green-700 rounded-full p-[2px]' /></span>
+
+                                    {showCopied.email === true ? <p className='absolute text-sm rounded-md -top-8 right-0 bg-base-100 px-3 py-[2px]'>Copied</p> : ''}
 
                                     <span onClick={() => {
-                                        navigator.clipboard.writeText(authUser.username)
-                                        setShowCopied({ ...showCopied, username: true })
-                                        setTimeout(() => { setShowCopied({ ...showCopied, username: false }) }, 1000)
+                                        navigator.clipboard.writeText(authUser.email)
+                                        setShowCopied({ ...showCopied, email: true })
+                                        setTimeout(() => { setShowCopied({ ...showCopied, email: false }) }, 1000)
                                     }}>
                                         <Copy size={16} className='opacity-40 cursor-pointer hover:opacity-80 transition-opacity' />
                                     </span>
-                                </p>
-                            </> :
-                            <>
-                                <div className="text-sm text-zinc-400 flex items-center gap-2">
-                                    <UserRoundCog className="w-4 h-4" />
-                                    Username
                                 </div>
-                                <div className='relative'>
-                                    <input
-                                        type="text"
-                                        value={username}
-                                        className='px-4 py-2.5 bg-base-200 rounded-lg border outline-none w-full'
-                                        onChange={e => {
-                                            setUsername(e.target.value)
-                                            validateUsername(e.target.value)
-                                        }}
-                                    />
-                                    {isCheckingUsername && <span className='absolute right-2 top-[50%] -translate-y-[50%]'><Loader2 size={16} className='animate-spin' /></span>}
-                                </div>
-                                {
-                                    usernameRes ?
-                                        <p className={`text-sm ml-1 ${usernameRes === 'username is available' ? 'text-green-600' : 'text-red-600'}`}>
-                                            {usernameRes}
-                                        </p> : ''
-                                }
-                            </>
-                    }
-                </div>
-
-                <div className="space-y-1.5">
-                    <div className="text-sm text-zinc-400 flex items-center gap-2 ">
-                        <Mail className="w-4 h-4" />
-                        Email Address
-                    </div>
-                    <p className="relative px-4 py-2.5 bg-base-200 rounded-lg border flex items-center justify-between">
-                        {authUser?.email}
-                        <div className='flex items-center justify-center gap-3'>
-
-                            <span><Check size={16} className='bg-green-700 rounded-full p-[2px]' /></span>
-
-                            {showCopied.email === true ? <p className='absolute text-sm rounded-md -top-8 right-0 bg-base-100 px-3 py-[2px]'>Copied</p> : ''}
-
-                            <span onClick={() => {
-                                navigator.clipboard.writeText(authUser.email)
-                                setShowCopied({ ...showCopied, email: true })
-                                setTimeout(() => { setShowCopied({ ...showCopied, email: false }) }, 1000)
-                            }}>
-                                <Copy size={16} className='opacity-40 cursor-pointer hover:opacity-80 transition-opacity' />
-                            </span>
+                            </p>
                         </div>
-                    </p>
-                </div>
 
-            </div>
-
-            <div className="mt-6 bg-base-300 rounded-xl p-6">
-                <h2 className="text-lg font-medium mb-2">Account Information</h2>
-                <div className=" text-sm">
-
-                    <div className="flex items-center justify-between py-2 ">
-                        <span>Member Since</span>
-                        <span>{formatJoiningDate(authUser.createdAt)}</span>
                     </div>
 
-                    <div className="flex items-center justify-between py-2">
-                        <span>Account Status</span>
-                        <span className="text-green-500">Active</span>
+                    <div className="mt-6 bg-base-300 rounded-xl p-6">
+                        <h2 className="text-lg font-medium mb-2">Account Information</h2>
+                        <div className=" text-sm">
+
+                            <div className="flex items-center justify-between py-2 ">
+                                <span>Member Since</span>
+                                <span>{formatJoiningDate(authUser.createdAt)}</span>
+                            </div>
+
+                            <div className="flex items-center justify-between py-2">
+                                <span>Account Status</span>
+                                <span className="text-green-500">Active</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div className="flex items-center flex-col justify-between px-6 ">
+
+                        <div className='flex w-full items-center justify-between'>
+                            <h2>Delete Account</h2>
+                            <button className='bg-red-600 text-white p-2 w-[100px] flex justify-center tracking-wide rounded hover:bg-red-800 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed'
+                                onClick={() => deleteProfile()} disabled={isDeletingProfile}>
+                                {
+                                    isDeletingProfile ?
+                                        <span className='flex items-center gap-2'> Deleting <Loader2 className='size-4 animate-spin' /> </span> :
+                                        'Delete'
+                                }
+                            </button>
+                        </div>
+
+                        <div className='flex  justify-start w-full items-center gap-2'>
+                            <BadgeInfoIcon className='size-4 animate-pulse' />
+                            <p className='text-sm capitalize'>Account will be deleted Permanently</p>
+                        </div>
                     </div>
 
                 </div>
-            </div>
-
-        </div>
             </div >
         </div >
     )

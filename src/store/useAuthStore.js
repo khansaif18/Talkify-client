@@ -16,6 +16,7 @@ const useAuth = create((set, get) => ({
     isSigningUp: false,
     isLoggingIn: false,
     isUpdatingProfile: false,
+    isDeletingProfile: false,
     isSendingOtp: false,
     isOtpSent: false,
     isCheckingUsername: false,
@@ -121,6 +122,20 @@ const useAuth = create((set, get) => ({
             toast.error(error?.response?.data?.message)
         } finally {
             set({ isUpdatingProfile: false })
+        }
+    },
+
+    deleteProfile: async () => {
+        try {
+            set({ isDeletingProfile: true })
+            const res = await axiosInstance.get('/auth/delete-account')
+            toast.success(res?.data?.message)
+            set({ authUser: null })
+            get().disConnectSocket()
+        } catch (error) {
+            toast.error(error?.response?.data?.message)
+        } finally {
+            set({ isDeletingProfile: false })
         }
     },
 

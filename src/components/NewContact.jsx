@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import useAuth from '../store/useAuthStore'
 import { Check, ChevronDown, Loader2, UserPlus, X } from 'lucide-react'
 import useChat from '../store/useChatStore'
+import Tooltip from './Tooltip'
 
 export default function NewContact() {
 
@@ -130,61 +131,58 @@ export default function NewContact() {
                             </div>
 
                             {
-                                searchResult.length === 0 && value ?
-                                    <div className='w-full text-center mt-3 bg-base-200 py-5 rounded mb-2 '>
-                                        <h2 className=''>No Result</h2>
-                                    </div>
-                                    :
-                                    <div className="w-full py-1 flex flex-col mt-3">
-                                        {
-                                            searchResult.length > 0 ? searchResult
-                                                .filter(user => !users.some(currUser => currUser._id === user._id))
-                                                .map(user => (
-                                                    <div
-                                                        key={user._id}
-                                                        className={`w-full px-3 py-2 mb-2 bg-neutral rounded flex items-center justify-between gap-2 transition-colors`}
-                                                    >
-                                                        <div className='flex items-center gap-2'>
-                                                            <div className="relative">
-                                                                <img
-                                                                    src={user.profilePic || defaultProfileImageUrl}
-                                                                    className="size-10 object-cover rounded-full"
-                                                                    alt={`${user.fullName}'s profile`}
-                                                                />
-                                                            </div>
-
-                                                            <div>
-                                                                <p className="font-medium text-left text-md truncate capitalize">
-                                                                    {user.fullName.length < 12 ? user.fullName : user.fullName.slice(0, 10) + '..'}
-                                                                </p>
-                                                                <p className="font-medium text-left text-sm truncate">
-                                                                    {user.username.length < 12 ? user.username : user.username.slice(0, 12) + '..'}
-                                                                </p>
-                                                            </div>
+                                <div className="w-full py-1 flex flex-col mt-3">
+                                    {
+                                        searchResult
+                                            .filter(user => !users.some(currUser => currUser._id === user._id))
+                                            .map(user => (
+                                                <div
+                                                    key={user._id}
+                                                    className={`w-full px-3 py-2 mb-2 bg-neutral rounded flex items-center justify-between gap-2 transition-colors`}
+                                                >
+                                                    <div className='flex items-center gap-2'>
+                                                        <div className="relative">
+                                                            <img
+                                                                src={user.profilePic || defaultProfileImageUrl}
+                                                                className="size-10 object-cover rounded-full"
+                                                                alt='PP'
+                                                            />
                                                         </div>
 
-                                                        <button
-                                                            className='bg-green-600 text-white p-2 rounded-md hover:bg-green-800 disabled:opacity-30'
-                                                            disabled={isSendingRequest}
-                                                            onClick={async () => {
-                                                                setSelectedContactId(user._id);
-                                                                await sendRequest(user._id);
-                                                                setSelectedContactId('');
-                                                            }}
-                                                        >
-                                                            {isSendingRequest && selectedContactId === user._id ? (
-                                                                <Loader2 size={20} className='animate-spin' />
-                                                            ) : (
-                                                                <UserPlus size={20} />
-                                                            )}
-                                                        </button>
+                                                        <div>
+                                                            <p className="font-medium text-left text-md truncate capitalize">
+                                                                {user.fullName.length < 12 ? user.fullName : user.fullName.slice(0, 10) + '..'}
+                                                            </p>
+                                                            <p className="font-medium text-left text-sm truncate">
+                                                                {user.username.length < 12 ? user.username : user.username.slice(0, 12) + '..'}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                )) :
-                                                <div className='w-full text-center mt-3 bg-base-200 py-5 rounded'>
-                                                    <h2 className=''>No Result</h2>
+
+                                                    <button
+                                                        className='bg-green-600 text-white p-2 rounded-md hover:bg-green-800 disabled:opacity-30'
+                                                        disabled={isSendingRequest}
+                                                        onClick={async () => {
+                                                            setSelectedContactId(user._id);
+                                                            await sendRequest(user._id);
+                                                            setSelectedContactId('');
+                                                        }}
+                                                    >
+                                                        {isSendingRequest && selectedContactId === user._id ?
+                                                            <Loader2 size={20} className='animate-spin' />
+                                                            :
+                                                            <UserPlus size={20} />
+                                                        }
+                                                    </button>
                                                 </div>
-                                        }
-                                    </div>
+                                            ))
+                                    }
+                                    {searchResult.filter(user => !users.some(currUser => currUser._id === user._id)).length === 0 && value ? (
+                                        <div className="w-full text-center mt-3 bg-base-200 py-5 rounded mb-2">
+                                            <h2>No Results</h2>
+                                        </div>
+                                    ) : ''}
+                                </div>
                             }
                         </div>
                     }

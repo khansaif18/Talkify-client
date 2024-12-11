@@ -12,6 +12,7 @@ const useChat = create((set, get) => ({
     isUsersLoading: false,
     isMessagesLoading: false,
     isDeletingMessage: false,
+    isDeletingContact: false,
 
     setSelectedUser: (selectedUser) => {
         set({ selectedUser })
@@ -67,6 +68,20 @@ const useChat = create((set, get) => ({
             // toast.error(error?.response?.data?.message)
         } finally {
             set({ isDeletingMessage: false })
+        }
+    },
+
+    deleteContact: async (contactId) => {
+        try {
+            if (!contactId) return
+            set({ isDeletingContact: true })
+            const res = await axiosInstance.get(`/contact/delete-contact/${contactId}`)
+            set({ selectedUser: null })
+            toast.success(res?.data?.message)
+        } catch (error) {
+            toast.error(error?.response?.data?.message)
+        } finally {
+            set({ isDeletingContact: false })
         }
     },
 

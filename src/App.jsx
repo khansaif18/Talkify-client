@@ -8,10 +8,10 @@ import ProfilePage from './pages/ProfilePage'
 import SettingsPage from './pages/SettingsPage'
 import useAuth from './store/useAuthStore'
 import useTheme from './store/useThemeStore'
-import { Loader2 } from 'lucide-react'
 import { Toaster } from 'react-hot-toast'
 import NetworkStatus from './components/NetworkStatus '
 import Loader from './components/skeletons/Loader'
+import ContactProfile from './pages/ContactProfile'
 
 const App = () => {
 
@@ -41,6 +41,7 @@ const App = () => {
         <Route path='/signup' element={!authUser ? <SignupPage /> : <Navigate to='/' />} />
         <Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to='/' />} />
         <Route path='/profile' element={authUser ? <ProfilePage /> : <Navigate to='/login' />} />
+        <Route path='/contact/:username' element={authUser ? <ContactProfile /> : <Navigate to='/login' />} />
         <Route path='/setting' element={<SettingsPage />} />
       </Routes>
 
