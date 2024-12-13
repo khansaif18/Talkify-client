@@ -12,12 +12,8 @@ export default function Sidebar() {
 
     const [showTab, setShowTab] = useState({ contacts: true, newContacts: false })
 
-    const { getUsers, users, selectedUser, setSelectedUser, isUserLoading } = useChat()
-    const { onlineUsers, getPendingUsers } = useAuth()
-
-    useEffect(() => {
-        getPendingUsers()
-    }, [showTab])
+    const { selectedUser, isUserLoading } = useChat()
+    
 
     if (isUserLoading) return <SidebarSkeleton />
 

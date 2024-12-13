@@ -8,9 +8,16 @@ export default {
   ],
   theme: {
     extend: {
-      transitionDuration: {
-        default: '150ms'
-      }
+      animation: {
+        star: "star 5s linear infinite",
+      },
+      keyframes: {
+        star: {
+          "0%": { transform: "translateY(-200px) scale(0.5)", opacity: 0 },
+          "30%": { opacity: 1 },
+          "100%": { transform: "translateY(200px) scale(1)", opacity: 0 },
+        },
+      },
     },
   },
   plugins: [daisyui],

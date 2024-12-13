@@ -18,17 +18,15 @@ const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuth()
   const { theme } = useTheme()
 
-
   useEffect(() => {
     checkAuth()
   }, [checkAuth])
 
   if (isCheckingAuth && !authUser) return (
-    <div className='flex flex-col items-center justify-center h-screen gap-1'>
+    <>
+      <Navbar />
       <Loader />
-      <h2>Please Wait For a Moment</h2>
-      <p>It Might Take Upto a Min (Only For The First Time)</p>
-    </div>
+    </>
   )
 
   return (

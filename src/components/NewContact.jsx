@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useAuth from '../store/useAuthStore'
 import { Check, ChevronDown, Loader2, UserPlus, X } from 'lucide-react'
 import useChat from '../store/useChatStore'
-import Tooltip from './Tooltip'
 
 export default function NewContact() {
 
@@ -17,6 +16,9 @@ export default function NewContact() {
     const { searchUser, isSearchingUser, searchResult, getPendingUsers, isSendingRequest, sendRequest, pendingContact, isAcceptingRequest, acceptRequest, isRejectingRequest, rejectRequest } = useAuth()
     const { users } = useChat()
 
+    useEffect(() => {
+        getPendingUsers()
+    }, [showFriendRequests])
 
     return (
         <div className='w-full overflow-y-auto '>
