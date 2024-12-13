@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import useAuth from '../store/useAuthStore'
 import useChat from '../store/useChatStore'
-import {  X } from 'lucide-react'
+import { X } from 'lucide-react'
 
 export default function Contacts() {
 
     const defaultProfileImageUrl = 'https://img.freepik.com/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3383.jpg?w=740'
 
-    const { getUsers, users, selectedUser, setSelectedUser, isUserLoading} = useChat()
+    const { getUsers, users, selectedUser, setSelectedUser, isUserLoading } = useChat()
     const { onlineUsers, authUser } = useAuth()
 
     const [searchValue, setSearchValue] = useState('')
@@ -40,7 +40,7 @@ export default function Contacts() {
             <div className="overflow-y-auto w-full py-3 flex flex-col gap-1 ">
 
                 {
-                    searchedUsers.length > 0 &&
+                    users.length > 0 &&
                     <div className='mx-3 -mt-1 mb-2 relative'>
                         <input
                             type="text"
@@ -54,7 +54,7 @@ export default function Contacts() {
                 }
 
                 {
-                    users && users.length > 0 ?
+                    searchedUsers.length > 0 ?
                         searchedUsers.map((user) => (
                             <button
                                 key={user._id}

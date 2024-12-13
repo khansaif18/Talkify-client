@@ -239,7 +239,7 @@ export default function ProfilePage() {
 
                         <div className='flex w-full items-center justify-between'>
                             <h2>Delete Account</h2>
-                            <button className='bg-red-600 text-white p-2 w-[100px] flex justify-center tracking-wide rounded hover:bg-red-800 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed'
+                            <button className='bg-red-600 text-white p-1 w-[100px] flex justify-center tracking-wide rounded hover:bg-red-800 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed'
                                 onClick={() => deleteProfile()} disabled={isDeletingProfile}>
                                 {
                                     isDeletingProfile ?
@@ -249,7 +249,7 @@ export default function ProfilePage() {
                             </button>
                         </div>
 
-                        <div className='flex  justify-start w-full items-center gap-2'>
+                        <div className='flex  justify-start w-full items-center gap-2 mt-1'>
                             <BadgeInfoIcon className='size-4 animate-pulse' />
                             <p className='text-sm capitalize'>Account will be deleted Permanently</p>
                         </div>

@@ -121,7 +121,7 @@ export default function ContactProfile() {
 
                     <div className="flex items-center justify-between px-6 ">
                         <h2>Delete Contact</h2>
-                        <button className='bg-red-600 text-white p-2 w-[100px] flex justify-center tracking-wide rounded hover:bg-red-800 transition-all duration-300'
+                        <button className='bg-red-600 text-white p-1 w-[100px] flex justify-center tracking-wide rounded hover:bg-red-800 transition-all duration-300'
                             onClick={() => deleteContact(selectedUser._id)}>
                             {
                                 isDeletingContact ?
