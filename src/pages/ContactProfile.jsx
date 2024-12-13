@@ -15,6 +15,8 @@ export default function ContactProfile() {
     const [showCopied, setShowCopied] = useState({ username: false, email: false })
 
     if (!selectedUser) return navigate('/')
+        
+    // adding nothing
 
     return (
         <div className=' py-12'>
